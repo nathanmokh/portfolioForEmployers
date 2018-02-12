@@ -172,6 +172,10 @@ def main():
             root = tk.Tk()
             root.withdraw()
             filePath = filedialog.askopenfilename()
+            if filePath[-4:] != '.csv':
+                print('Not a CSV file, load cancelled')
+                print('You tried to load: ' + filePath)
+                continue
             with open(filePath) as csvDataFile:
                 csvReader = csv.reader(csvDataFile)
                 for row in csvReader:
