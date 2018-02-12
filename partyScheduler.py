@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 brothersList = []
 currentSchedule = []
 import random
