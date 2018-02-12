@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 brothersList = []
 currentSchedule = []
 import random
@@ -6,6 +5,7 @@ import operator
 import tkinter as tk
 import csv
 from tkinter import filedialog
+
 class Brother(object):
     name = ''
     pc = 0
@@ -46,33 +46,13 @@ def getBrother():
     """Input brother object into global brothersList"""
     name = input('Brother Last name: ')
     pc = input('Brother pledge class: ')
-    if pc.lower() == 'alpha':
-        pc = 1
-    elif pc.lower() == 'beta':
-        pc = 2
-    elif pc.lower() == 'gamma':
-        pc = 3
-    elif pc.lower() == 'delta':
-        pc = 4
-    elif pc.lower() == 'epsilon':
-        pc = 5
-    elif pc.lower() == 'zeta':
-        pc = 6
-    elif pc.lower() == 'eta':
-        pc = 7
-    elif pc.lower() == 'theta':
-        pc = 8
-    elif pc.lower() == 'iota':
-        pc = 9
-    elif pc.lower() == 'kappa':
-        pc = 10
-    else:
-        pc = 10
+    pc = pcParser(pc)
     global brothersList
     brothersList += [Brother(name, pc)]
     return  brothersList
 
 def getBrotherCSV(name, pc):
+    """Use for CSV Data imports"""
     global brothersList
     pc = pcParser(pc)
     brothersList += [Brother(name, pc)]
@@ -85,6 +65,7 @@ def genGrid(m, n):
     return array
 
 def formatSchedule(schedule):
+    """Make schedule into grid format for user readibility"""
     ret = ''
     for x in schedule:
         ret += str(x) + '\n'
@@ -115,7 +96,6 @@ def getShifts(brothersList):
                 breakOut = False
                 break
         
-    #print(schedule)
     return schedule
 
 def main():
@@ -130,6 +110,7 @@ def main():
         print('7: Get count of brothers in list')
         print('8: Load brothers from CSV')
         print('9: View current saved schedule')
+        print('10: Write current schedule to CSV')
         print('1913: Quit the program\n')
         decision = input('Enter a command: ')
 
@@ -147,12 +128,9 @@ def main():
             print(formatSchedule(gen))
             save = input('Would you like to save this schedule? (y/n): ')
             if save.lower() == 'y' or save.lower() == 'yes':
-                scheduleToSave = []
                 for i in gen:
-                    scheduleToSave += [i]
-                currentSchedule = scheduleToSave
+                    currentSchedule += [i]
                 print('schedule saved.')
-                
             else:
                 print('Schedule not saved.')
                     
@@ -178,27 +156,8 @@ def main():
             print('Generated brother:\n' + brothersList[toDecide].name)
         elif decision == '6' and len(brothersList) > 0:
             choice = input('Enter pledge class: ')
-            if choice.lower() == 'alpha':
-                choice = 1
-            elif choice.lower() == 'beta':
-                choice = 2
-            elif choice.lower() == 'gamma':
-                choice = 3
-            elif choice.lower() == 'delta':
-                choice = 4
-            elif choice.lower() == 'epsilon':
-                choice = 5
-            elif choice.lower() == 'zeta':
-                choice = 6
-            elif choice.lower() == 'eta':
-                choice = 7
-            elif choice.lower() == 'theta':
-                choice = 8
-            elif choice.lower() == 'iota':
-                choice = 9
-            elif choice.lower() == 'kappa':
-                choice = 10
-            else:
+            choice = pcParser(choice)
+            if str(choice) not in '0123456789':
                 print('No brother in list with given pledge class')
                 continue
             choiceList = []
@@ -222,6 +181,11 @@ def main():
         elif decision == '9':
             print('Current schedule:')
             print(formatSchedule(currentSchedule))
+        elif decision == '10':
+            csvfile = input('What would you like to name the file? ')
+            with open(csvfile, 'w') as output:
+                writer = csv.writer(output)
+                writer.writerows(currentSchedule)
         elif decision == '1913' or decision.lower() == 'quit' or decision.lower() == 'q':
             print('WHAT YEAR???')
             break
