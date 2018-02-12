@@ -147,9 +147,12 @@ def main():
             print(formatSchedule(gen))
             save = input('Would you like to save this schedule? (y/n): ')
             if save.lower() == 'y' or save.lower() == 'yes':
+                scheduleToSave = []
                 for i in gen:
-                    currentSchedule += [i]
+                    scheduleToSave += [i]
+                currentSchedule = scheduleToSave
                 print('schedule saved.')
+                
             else:
                 print('Schedule not saved.')
                     
