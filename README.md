@@ -1,2 +1,2 @@
-# personalProjects
-Random code I mess around with on my free time
+# portfolio for employers
+My k-means algorithm also runs from the command line, enter a CSV with purely numerical data and it'll assign each row to a cluster and create a file output.csv. The cluster ID in row n corresponds to item n in the CSV. Command to run the algorithm: python kmeans.py k 'random'. Input 'k-means++' for the k-means++ algorithm and random for the standard k means. k will be the amount of clusters you'd like to break the data into.
